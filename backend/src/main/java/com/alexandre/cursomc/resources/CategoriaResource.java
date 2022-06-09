@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alexandre.cursomc.domain.Categoria;
-import com.alexandre.cursomc.resources.services.CategoriaService;
+import com.alexandre.cursomc.services.CategoriaService;
 
 @RestController
 @RequestMapping(value="/categorias")

@@ -1,4 +1,4 @@
-package com.alexandre.cursomc.resources.services;
+package com.alexandre.cursomc.services;
 
 import java.util.Optional;
 
