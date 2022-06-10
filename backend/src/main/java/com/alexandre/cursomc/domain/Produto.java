@@ -1,13 +1,17 @@
 package com.alexandre.cursomc.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Produto implements Serializable {
@@ -19,8 +23,11 @@ public class Produto implements Serializable {
 	private String nome;
 	private Double preco;
 	
-	@ManyToOne
-	private Categoria categorias;
+	@ManyToMany
+	@JoinTable(name = "PRODUTO_CATEGORIA",
+			joinColumns = @JoinColumn(name = "produto_id"),
+			inverseJoinColumns = @JoinColumn(name = "categorias"))
+	private List<Categoria> categorias = new ArrayList<>();
 	
 	public Produto() {
 	}
@@ -53,6 +60,10 @@ public class Produto implements Serializable {
 
 	public void setPreco(Double preco) {
 		this.preco = preco;
+	}	
+
+	public List<Categoria> getCategorias() {
+		return categorias;
 	}
 
 	@Override
