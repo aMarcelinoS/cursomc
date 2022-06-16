@@ -71,7 +71,13 @@ public class CursomcApplication implements CommandLineRunner{
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
 		Categoria cat1 = new Categoria(null, "Informática");
-		Categoria cat2 = new Categoria(null, "Escritório");		
+		Categoria cat2 = new Categoria(null, "Escritório");
+		Categoria cat3 = new Categoria(null, "Eletrônicos");
+		Categoria cat4 = new Categoria(null, "Papelaria");
+		Categoria cat5 = new Categoria(null, "Eletrodomésticos");
+		Categoria cat6 = new Categoria(null, "Celulares e acessórios");
+		Categoria cat7 = new Categoria(null, "Cama, mesa e banho");
+		Categoria cat8 = new Categoria(null, "Brinquedos");
 		
 		Produto p1 = new Produto(null, "Computador", 1000.00);
 		Produto p2 = new Produto(null, "Tablet", 600.00);
@@ -85,7 +91,7 @@ public class CursomcApplication implements CommandLineRunner{
 		p2.getCategorias().addAll(Arrays.asList(cat1));
 		p3.getCategorias().addAll(Arrays.asList(cat1, cat2));
 		
-		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
+		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
 		
 		Estado est1 = new Estado(null, "Minas Gerais");
