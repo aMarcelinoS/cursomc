@@ -117,4 +117,12 @@ public class Pedido implements Serializable {
 		Pedido other = (Pedido) obj;
 		return Objects.equals(id, other.id);
 	}
+	
+	public double getValorTotal() {
+		double soma = 0.0;
+		for (ItemPedido x : itens) {
+			soma += x.getSubTotal();
+		}
+		return soma;
+	}
 }
