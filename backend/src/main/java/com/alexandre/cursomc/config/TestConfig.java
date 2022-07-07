@@ -26,10 +26,10 @@ public class TestConfig {
 	}	
 	
 	
-	@Bean
-	public EmailService emailService() {
-		return new MockEmailService();
-	}
+//	@Bean
+//	public EmailService emailService() {
+//		return new MockEmailService();
+//	}
 	
 	//Retorna uma instância de SmtpEmailService
 	@Bean
