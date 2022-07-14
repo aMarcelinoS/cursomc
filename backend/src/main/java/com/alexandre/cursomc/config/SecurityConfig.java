@@ -10,6 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -26,13 +27,11 @@ public class SecurityConfig {
 			"/h2-console/**",
 	};
 	
-	//Lista de endpoints que serão permitidos acessar sem autenticação apenas recuperar dados
+	//Lista de endpoints que serão permitidos acessar sem autenticação apenas para recuperar dados
 	private static final String[] PUBLIC_MATCHERS_GET = {
 			"/produtos/**",
 			"/categorias/**"
-	};
-	
-	
+	};	
 	
 	//Configura as permissões de acesso aos endpoint´s
 	@Bean
@@ -61,4 +60,9 @@ public class SecurityConfig {
 		return source;
 	}
 	
+	//Gera um encode da senha original
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 }
