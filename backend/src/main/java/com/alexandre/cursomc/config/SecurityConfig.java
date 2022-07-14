@@ -30,7 +30,8 @@ public class SecurityConfig {
 	//Lista de endpoints que serão permitidos acessar sem autenticação apenas para recuperar dados
 	private static final String[] PUBLIC_MATCHERS_GET = {
 			"/produtos/**",
-			"/categorias/**"
+			"/categorias/**",
+			"/clientes/**"
 	};	
 	
 	//Configura as permissões de acesso aos endpoint´s
