@@ -42,7 +42,5 @@ public class ProdutoResource {
 		Page<Produto> list = service.search(nomeDecoded, ids, page, linesPerPage, orderBy, direction);
 		Page<ProdutoDTO> listDto = list.map(obj -> new ProdutoDTO(obj));
 		return ResponseEntity.ok().body(listDto);
-	}
-	
-	
+	}	
 }
