@@ -1,4 +1,4 @@
-/*package com.alexandre.cursomc.security;
+package com.alexandre.cursomc.security;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,23 +9,21 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.alexandre.cursomc.dto.CredenciaisDTO;
 import com.alexandre.cursomc.security.jwt.JWTUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class JWTAuthenticationFilter extends OncePerRequestFilter {
+public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	
 	private AuthenticationManager authenticationManager;	
-	private JWTUtil jwtUtil;
-	
+	private JWTUtil jwtUtil;	
 	
 	
 	public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
@@ -33,9 +31,8 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 		this.jwtUtil = jwtUtil;
 	}
 
-	@Bean
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
+	@Override
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
 		try {
 			CredenciaisDTO credenciais = new ObjectMapper()
@@ -43,15 +40,23 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 			
 			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(credenciais.getEmail(), credenciais.getSenha(), new ArrayList<>());
 			
-			Authentication auth = authenticationManager.authenticate(authToken);
-			
-			String username = ((UserSS) auth.getPrincipal()).getUsername();
-			String token = jwtUtil.generateToken(username);
-			response.addHeader("Authorization", "Bearer " + token);
+			Authentication auth = authenticationManager.authenticate(authToken);			
+			return auth;
 		}
 		catch(IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	@Override
+	protected void successfulAuthentication(HttpServletRequest request, 
+											HttpServletResponse response, 
+											FilterChain chain,
+											Authentication auth) throws IOException, ServletException {
+		
+		String username = ((UserSS) auth.getPrincipal()).getUsername();
+		String token = jwtUtil.generateToken(username);
+		response.addHeader("Authorization", "Bearer " + token);
 	}
 	
 	//Classe implementada para mudar o status manualmente quando a autenticação falha de 403(Forbiden) para 401(Unauthorized)
@@ -74,6 +79,5 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 					+ "\"path\": \"/login\"}";
 		}		
 	}
-
 }
-*/
+
