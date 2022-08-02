@@ -64,14 +64,13 @@ public class SecurityConfig {
 		return http.build();				
 	}
 	
-	//Acessa o método authenticationManager sem a dependência do WebSecurityConfiguration e registra o filtro de autenticação
+	//Acessa o método authenticationManager sem a dependência do WebSecurityConfigurerAdapter e registra o filtro de autenticação
 	public class MyCustom extends AbstractHttpConfigurer<MyCustom, HttpSecurity> {
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
 			AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
 			http.addFilter(new JWTAuthenticationFilter(authenticationManager, jwtUtil));
-		}
-		
+		}		
 	}
 	
 	//Retorna a customização com o registro do filtro de autenticação 
