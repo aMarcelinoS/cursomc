@@ -8,7 +8,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,6 +25,8 @@ import com.alexandre.cursomc.security.JWTAuthorizationFilter;
 import com.alexandre.cursomc.security.jwt.JWTUtil;	
 
 @Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 	
 	@Autowired
@@ -32,9 +36,7 @@ public class SecurityConfig {
 	private JWTUtil jwtUtil;
 	
 	@Autowired
-	private UserDetailsService userDetailsService;
-	
-	
+	private UserDetailsService userDetailsService;	
 	
 	
 	//Lista de endpoints que serão permitidos acessar sem autenticaçao
@@ -45,9 +47,12 @@ public class SecurityConfig {
 	//Lista de endpoints que serão permitidos acessar sem autenticação apenas para recuperar dados
 	private static final String[] PUBLIC_MATCHERS_GET = {
 			"/produtos/**",
-			"/categorias/**",
-			"/clientes/**",
-	};	
+			"/categorias/**"
+	};
+	
+	private static final String[] PUBLIC_MATCHERS_POST = {
+			"/clientes/**"
+	};
 	
 	//Configura as permissões de acesso aos endpoint´s
 	@Bean
@@ -59,9 +64,8 @@ public class SecurityConfig {
 		http.cors().and().csrf().disable();
 		
 		http
-		.httpBasic()
-		.and()
 		.authorizeHttpRequests()
+			.antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
 			.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
 			.antMatchers(PUBLIC_MATCHERS).permitAll()
 			.anyRequest().authenticated();
