@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.alexandre.cursomc.domain.Categoria;
 import com.alexandre.cursomc.domain.Pedido;
-import com.alexandre.cursomc.dto.CategoriaDTO;
 import com.alexandre.cursomc.services.PedidoService;
 
 @RestController
