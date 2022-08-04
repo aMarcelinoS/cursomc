@@ -52,7 +52,4 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter{
 		}
 		return null;
 	}
-	
-	//Obtem o username dentro do token
-
 }
