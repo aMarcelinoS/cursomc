@@ -51,6 +51,9 @@ public class ClienteService {
 	
 	@Value("${img.prefix.client.profile}")
 	private String prefix;
+	
+	@Value("${img.profile.size}")
+	private Integer size;
 
 	// Busca um cliente por id no banco de dados
 	public Cliente find(Integer id) {
@@ -137,6 +140,10 @@ public class ClienteService {
 		}
 		
 		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+		jpgImage = imageService.cropSquare(jpgImage); /*recorta a imagem para ficar quadrada */
+		jpgImage = imageService.resize(jpgImage, size); /*redimensiona a imagem*/
+		
+		
 		String fileName = prefix + user.getId() + ".jpg";
 		
 		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
