@@ -58,6 +58,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		String username = ((UserSS) auth.getPrincipal()).getUsername();
 		String token = jwtUtil.generateToken(username);
 		response.addHeader("Authorization", "Bearer " + token);
+		response.addHeader("access-control-expose-headers", "Authorization");
 	}
 	
 	//Classe implementada para mudar o status manualmente quando a autenticação falha de 403(Forbiden) para 401(Unauthorized)
